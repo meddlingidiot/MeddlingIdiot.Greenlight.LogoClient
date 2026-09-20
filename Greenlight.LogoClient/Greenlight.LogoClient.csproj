@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    A reference consumer of MeddlingIdiot.Greenlight.Sdk: your logo, on the desktop, lit by
+    the build. The picture never changes - the light behind it does. Green while everything
+    passes, yellow while a pull request wants you, red when a pipeline breaks, and unlit when
+    there is no Greenlight to ask. A build under way makes the glow breathe.
+
+    The glow is cut from the picture's own alpha, which is why the artwork wants transparency
+    and why the config file says so: a rectangular glow behind a logo reads as a rectangle,
+    where a glow in the logo's own shape reads as the logo being lit. It ships with the
+    Meddling Idiot mascot and the badge, and takes any PNG of your own instead. The mascot,
+    the badge and the icon are NOT under the MIT licence - see TRADEMARKS.md.
+
+    The point of it is what it does NOT have. No Azure DevOps client, no GitHub client, no
+    token, no polling loop - it reads everything from the Greenlight already running on the
+    machine, through the package. Everything here is either Avalonia drawing, the tray icon,
+    or the twenty-odd lines that talk to the SDK.
+
+    It references the SDK as a package, which is all an app of your own has to do:
+      dotnet add package MeddlingIdiot.Greenlight.Sdk
+
+    net10.0-windows because the click-through overlay and the work-area maths are Win32. The
+    SDK itself is plain net8.0/net10.0.
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Greenlight.LogoClient</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\MeddlingIdiot.ico</ApplicationIcon>
+    <!-- Not a package. Fallout's Package target packs the whole solution. -->
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="12.1.1" />
+    <PackageReference Include="Avalonia.Desktop" Version="12.1.1" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.1" />
+  </ItemGroup>
+
+  <!-- The SDK and the updater, the same way your own app would take them. -->
+  <ItemGroup>
+    <PackageReference Include="MeddlingIdiot.Greenlight.Sdk" Version="1.2.0" />
+    <PackageReference Include="MeddlingIdiot.Velopack" Version="1.2.0" />
+  </ItemGroup>
+
+  <!--
+    The tray icon and the executable's icon, and the two pictures this ships with: the mascot
+    on his own and the whole badge. Both are transparent PNGs, which is the only thing the
+    glow asks of a picture. The licence notice beside them is for people, not for the app.
+  -->
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" Exclude="Assets\LICENSE" />
+  </ItemGroup>
+</Project>
