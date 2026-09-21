@@ -16,20 +16,26 @@
 
 name: Build
 
+# Documentation-only changes do not build: a push or pull request touching nothing but the
+# files below would otherwise cut a new version for a README typo. A change that touches code
+# as well still builds - paths-ignore only skips when every changed file matches.
 on:
   push:
     branches:
       - main
       - 'feature/**'
       - 'bugfix/**'
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+      - '**/LICENSE'
   pull_request:
     branches:
       - main
     paths-ignore:
       - 'docs/**'
-      - 'README.md'
-      - 'CHANGELOG.md'
-      - 'LICENSE'
+      - '**.md'
+      - '**/LICENSE'
 
 # ============================================================================
 # Build Job
